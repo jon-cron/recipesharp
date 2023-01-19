@@ -30,4 +30,38 @@ public class RecipesController : ControllerBase
       return BadRequest(e.Message);
     }
   }
+  [HttpGet("{id}")]
+  [Authorize]
+
+  public async Task<ActionResult<Recipe>> GetOneRecipeById(int id)
+  {
+    try 
+    {
+      Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
+      Recipe recipe = _recipesService.GetOneRecipeById(id, userInfo.Id);
+      return Ok(recipe);
+    }
+    catch (Exception e)
+    {
+      return BadRequest(e.Message);
+    }
+  }
+  [HttpPost]
+  [Authorize]
+
+  public async Task<ActionResult<Recipe>> CreateRecipe([FromBody] Recipe recipeData)
+  {
+    try 
+    {
+      Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
+      recipeData.CreatorId = userInfo.Id;
+      Recipe recipe = _recipesService.CreateRecipe(recipeData, userInfo?.Id);
+      recipe.Creator = userInfo;
+      return Ok(recipe);
+    }
+    catch (Exception e)
+    {
+      return BadRequest(e.Message);
+    }
+  }
 }
