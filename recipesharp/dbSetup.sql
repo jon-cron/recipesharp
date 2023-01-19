@@ -23,6 +23,11 @@ CREATE TABLE recipes(
   Foreign Key (creatorId) REFERENCES accounts(id) ON DELETE CASCADE
 ) default charset utf8 COMMENT '';
 
+INSERT INTO recipes
+(title,instructions,`imgUrl`,category,`creatorId`)
+VALUES
+('avocado toast', 'Crisp the bread, spread avocado, top with seasoning', 'https://images.unsplash.com/photo-1588137378633-dea1336ce1e2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8YXZvY2FkbyUyMHRvYXN0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60', 'Breakfast', '6387da8cdf89658f5215b5b5');
+
 CREATE TABLE ingredients(
   id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
   name VARCHAR(255),
