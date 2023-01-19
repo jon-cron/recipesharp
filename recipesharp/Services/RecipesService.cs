@@ -19,11 +19,15 @@ public class RecipesService
 
   internal Recipe GetOneRecipeById(int id, string userId)
   {
+    Recipe recipe = _repo.GetOneRecipeById(id);
     if(userId == null)
     {
       throw new Exception("please log in");
     }
-    Recipe recipe = _repo.GetOneRecipeById(id);
+    if(recipe == null)
+    {
+      throw new Exception("no recipe by this id");
+    }
     return recipe;
   }
     internal Recipe CreateRecipe(Recipe recipeData, string userId)
@@ -33,5 +37,16 @@ public class RecipesService
     }
     Recipe recipe = _repo.CreateRecipe(recipeData);
     return recipe;
+  }
+
+  internal string RemoveRecipe(int id, string userId)
+  {
+    Recipe original = GetOneRecipeById(id, userId);
+    if(original.CreatorId != userId)
+    {
+      throw new Exception("not your recipe");
+    }
+    _repo.RemoveRecipe(id);
+    return $"{original.Title} has been removed";
   }
 }

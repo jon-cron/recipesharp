@@ -55,4 +55,13 @@ return recipeData;
       return recipe;
     }, new {id}).FirstOrDefault();
   }
+
+  internal void RemoveRecipe(int id)
+  {
+    string sql = @"
+    DELETE FROM recipes
+    WHERE id = @id;
+    ";
+    _db.Execute(sql, new {id});
+  }
 }
