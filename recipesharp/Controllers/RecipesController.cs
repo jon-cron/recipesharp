@@ -10,12 +10,15 @@ public class RecipesController : ControllerBase
 
     private readonly IngredientsService _ingredientsService;
 
+    private readonly FavoritesService _favoritesService;
 
-  public RecipesController(RecipesService recipesService, Auth0Provider auth0Provider, IngredientsService ingredientsService)
+
+  public RecipesController(RecipesService recipesService, Auth0Provider auth0Provider, IngredientsService ingredientsService, FavoritesService favoritesService)
   {
     _ingredientsService = ingredientsService;
     _recipesService = recipesService;
     _auth0Provider = auth0Provider;
+    _favoritesService = favoritesService;
   }
 
   [HttpGet]
@@ -94,6 +97,38 @@ public class RecipesController : ControllerBase
       Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
       List<Ingredient> ingredients = _ingredientsService.GetIngredientsByRecipeId(id, userInfo?.Id);
       return Ok(ingredients);
+    }
+    catch (Exception e)
+    {
+      return BadRequest(e.Message);
+    }
+  }
+  [HttpGet("{id}/favorites")]
+  [Authorize]
+  public async Task<ActionResult<List<Favoritor>>> GetFavoritesByRecipeId(int id)
+  {
+    try 
+    {
+      Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
+      List<Favoritor> favorites = _favoritesService.GetFavoritesByRecipeId(id, userInfo.Id);
+      return Ok(favorites);
+    }
+    catch (Exception e)
+    {
+      return BadRequest(e.Message);
+    }
+  }
+  [HttpPut("{id}")]
+  [Authorize]
+
+  public async Task<ActionResult<Recipe>> EditRecipe([FromBody] Recipe recipeData,int id)
+  {
+    try 
+    {
+      Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
+      recipeData.Id = id;
+      Recipe recipe = _recipesService.EditRecipe(recipeData, userInfo?.Id);
+      return Ok(recipe);
     }
     catch (Exception e)
     {

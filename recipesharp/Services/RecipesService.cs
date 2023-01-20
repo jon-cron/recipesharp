@@ -49,4 +49,21 @@ public class RecipesService
     _repo.RemoveRecipe(id);
     return $"{original.Title} has been removed";
   }
+
+  internal Recipe EditRecipe(Recipe recipeData, string userId)
+  {
+  Recipe original = GetOneRecipeById(recipeData.Id, userId);
+
+  original.Title = recipeData.Title ?? original.Title;
+  original.Instructions = recipeData.Instructions ?? original.Instructions;
+  original.ImgUrl = recipeData.ImgUrl ?? original.ImgUrl;
+  original.Category = recipeData.Category ?? original.Category;
+
+  bool edited = _repo.EditRecipe(original);
+  if(edited)
+  {
+    return original;
+  }
+  throw new Exception("recipe was not edited.");
+  }
 }

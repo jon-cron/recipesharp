@@ -23,6 +23,21 @@ recipeData.Id = id;
 return recipeData;
   }
 
+  internal bool EditRecipe(Recipe original)
+  {
+    string sql = @"
+    UPDATE recipes
+    SET
+    title = @title,
+    instructions = @instructions,
+    category = @category,
+    imgUrl = @imgUrl
+    WHERE id = @id;
+    ";
+    int rows = _db.Execute(sql, original);
+    return rows > 0;
+  }
+
   internal List<Recipe> GetAllRecipes()
   {
     string sql = @"
