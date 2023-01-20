@@ -47,4 +47,6 @@ CREATE TABLE favorites(
 ) default charset utf8 COMMENT '';
 
 SELECT * FROM ingredients
-WHERE `recipeId` = 1
+WHERE `recipeId` = 1;
+
+USER VARIABLES = TRUE;

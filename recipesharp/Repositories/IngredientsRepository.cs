@@ -13,9 +13,9 @@ public class IngredientsRepository
   {
     string sql = @"
     INSERT INTO ingredients
-    (name, quantity, recipeId)
+    (quantity, name, recipeId)
     VALUES
-    (@name, @quantity, @recipeId);
+    (@quantity, @name, @recipeId);
     SELECT LAST_INSERT_ID();
     ";
     int id = _db.ExecuteScalar<int>(sql, ingredientData);
@@ -30,9 +30,21 @@ public class IngredientsRepository
     SELECT
     *
     FROM ingredients
-    WHERE 'recipeId' = @recipeId;
+    WHERE
+    recipeId = @recipeId;
     ";
-    List<Ingredient> ingredients = _db.Query<Ingredient>(sql).ToList();
+    List<Ingredient> ingredients = _db.Query<Ingredient>(sql, new {recipeId}).ToList();
     return ingredients;
+  }
+
+  internal bool Remove(int id)
+  {
+    string sql = @"
+    DELETE FROM ingredients
+    WHERE id = @id;
+    ";
+    int rows = _db.Execute(sql, new {id});
+
+    return rows > 0;
   }
 }
