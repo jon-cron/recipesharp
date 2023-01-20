@@ -31,7 +31,7 @@ VALUES
 CREATE TABLE ingredients(
   id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
   name VARCHAR(255),
-  quantiry INT,
+  quantiry VARCHAR(255),
   recipeId INT NOT NULL,
 
   Foreign Key (recipeId) REFERENCES recipes(id) ON DELETE CASCADE
