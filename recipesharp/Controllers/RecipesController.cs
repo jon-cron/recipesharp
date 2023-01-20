@@ -22,7 +22,7 @@ public class RecipesController : ControllerBase
   }
 
   [HttpGet]
-  [Authorize]
+  // [Authorize]
   
   public async Task<ActionResult<List<Recipe>>> GetAllRecipes()
   {
