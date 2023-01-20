@@ -1,15 +1,19 @@
 namespace recipesharp.Controllers;
 
 [ApiController]
-[Route("api/recipes")]
+[Route("api/[controller]")]
 public class RecipesController : ControllerBase
 {
     private readonly RecipesService _recipesService;
 
     private readonly Auth0Provider _auth0Provider;
 
-  public RecipesController(RecipesService recipesService, Auth0Provider auth0Provider)
+    private readonly IngredientsService _ingredientsService;
+
+
+  public RecipesController(RecipesService recipesService, Auth0Provider auth0Provider, IngredientsService ingredientsService)
   {
+    _ingredientsService = ingredientsService;
     _recipesService = recipesService;
     _auth0Provider = auth0Provider;
   }
@@ -74,6 +78,22 @@ public class RecipesController : ControllerBase
       Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
       string message = _recipesService.RemoveRecipe(id, userInfo.Id);
       return Ok(message);
+    }
+    catch (Exception e)
+    {
+      return BadRequest(e.Message);
+    }
+  }
+  [HttpGet("{id}/ingredients")]
+  [Authorize]
+
+  public async Task<ActionResult<List<Ingredient>>> GetIngredientsByRecipeId(int id)
+  {
+    try 
+    {
+      Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
+      List<Ingredient> ingredients = _ingredientsService.GetIngredientsByRecipeId(id, userInfo?.Id);
+      return Ok(ingredients);
     }
     catch (Exception e)
     {

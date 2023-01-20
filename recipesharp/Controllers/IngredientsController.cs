@@ -1,7 +1,7 @@
 namespace recipesharp.Controllers;
 
 [ApiController]
-[Route("api/ingredients")]
+[Route("api/[controller]")]
 public class IngredientsController : ControllerBase
 {
     private readonly IngredientsService _ingredientsService;

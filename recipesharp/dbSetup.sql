@@ -31,7 +31,7 @@ VALUES
 CREATE TABLE ingredients(
   id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
   name VARCHAR(255),
-  quantiry VARCHAR(255),
+  quantity VARCHAR(255),
   recipeId INT NOT NULL,
 
   Foreign Key (recipeId) REFERENCES recipes(id) ON DELETE CASCADE
@@ -45,3 +45,6 @@ CREATE TABLE favorites(
   Foreign Key (accountId) REFERENCES accounts(id) ON DELETE CASCADE,
   Foreign Key (recipeId) REFERENCES recipes(id) ON DELETE CASCADE
 ) default charset utf8 COMMENT '';
+
+SELECT * FROM ingredients
+WHERE `recipeId` = 1
