@@ -1,7 +1,7 @@
 <template>
   <div>
     <span class="row justify-content-center fixed-row align-content-center elevation-5 text-center">
-  <div class="col-3"><h6 class="selectable" >Home</h6></div>
+  <div class="col-3"><h6 class="selectable" @click="getRecipes" >Home</h6></div>
   <div class="col-4"><h6 class="selectable" >My Recipes</h6></div>
   <div class="col-3"><h6 class="selectable" >Favorites</h6></div>
 </span>
@@ -11,7 +11,7 @@
         <RecipeCard :recipe = "r"/>
       </div>
     </section>
-    <i class="btn fixed-btn mdi text-white mdi-plus fs-2 selectable" title="New Recipe" type="button" data-bs-target="#new-recipe" data-bs-toggle="offcanvas"></i>
+    <i v-if="account.id" class="btn fixed-btn mdi text-white mdi-plus fs-2 selectable" title="New Recipe" type="button" data-bs-target="#new-recipe" data-bs-toggle="offcanvas"></i>
   </div>
 </template>
 
@@ -28,16 +28,25 @@ export default {
     onMounted(()=>{
       getRecipes()
     })
-   async function getRecipes(){
-      try {
-        await recipesService.getRecipes()
-      } catch (error) {
-        Pop.error(error)
-        logger.log(error)
-      }
-    }
+    async function getRecipes(){
+       try {
+         await recipesService.getRecipes()
+       } catch (error) {
+         Pop.error(error)
+         logger.log(error)
+       }
+     }
     return {
-      recipes: computed(()=> AppState.recipes)
+      async getRecipes(){
+         try {
+           await recipesService.getRecipes()
+         } catch (error) {
+           Pop.error(error)
+           logger.log(error)
+         }
+       },
+      recipes: computed(()=> AppState.recipes),
+      account: computed(()=> AppState.account)
     }
   }
 }

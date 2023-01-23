@@ -1,8 +1,8 @@
 <template>
-  <section class="recipe-img row align-content-between align-items-start elevation-5 selectable" v-if="recipe" :style="`background-image: url(${recipe.imgUrl})`">
+  <section class="recipe-img row align-content-between align-items-start elevation-5 selectable" data-bs-toggle="modal" data-bs-target="#recipe-modal" @click="setToActive" v-if="recipe" :style="`background-image: url(${recipe.imgUrl})`">
 <!-- <img class="recipe-img" :src="recipe.imgUrl" alt=""> -->
 <div class="col-4 text-center text-white p-1">
-  <h5 class="shadow-bg m-2">{{ recipe.category }}</h5>
+  <h5 class="shadow-bg p-1 m-2">{{ recipe.category }}</h5>
 </div>
 <div>
   <i class="mdi mdi-heart-outline fs-5 btn" title="Favorite"></i>
@@ -25,10 +25,23 @@
 import { AppState } from '../AppState';
 import { computed, reactive, onMounted } from 'vue';
 import { Recipe } from "../models/Recipe.js";
+import { logger } from "../utils/Logger.js";
+import Pop from "../utils/Pop.js";
+import { ingredientsService } from "../services/IngredientsService.js";
 export default {
   props: {recipe: {type: Recipe, required: true}},
   setup(props){
-  return {  }
+  return {
+   async setToActive(){
+    try {
+      AppState.recipe = props.recipe
+      await ingredientsService.getIngredients(AppState.recipe.id)
+    } catch (error) {
+      Pop.error(error)
+      logger.log(error)
+    }
+    }
+  }
   }
 };
 </script>
@@ -42,7 +55,7 @@ background-size: cover;
 background-position: center;
 }
 .shadow-bg{
-  background-color: rgba(27, 25, 25, 0.342);
+  background-color: #BBBBBB;
   width: 100%;
   border-radius: 9pt;
 

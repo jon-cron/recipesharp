@@ -58,6 +58,14 @@ a:hover {
     height: 64px;
   }
 }
+.row{
+  margin: 0;
+}
+.nav-sz{
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
 .search{
   border-top: .5pt solid white;
   border-left: .5pt solid white;
@@ -66,15 +74,6 @@ a:hover {
   border-right: none;
   border-top-left-radius: 3pt;
   border-bottom-left-radius: 3pt;
-  
-}
-.row{
-  margin: 0;
-}
-.nav-sz{
-  width: 100%;
-  margin: 0;
-  padding: 0;
 }
 .search-btn{
   border-top: .5pt solid white;

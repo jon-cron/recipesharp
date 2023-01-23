@@ -8,6 +8,7 @@
    <footer >
   </footer>
   <NewRecipe/>
+  <RecipeModal/>
 </template>
 
 <script>
@@ -15,6 +16,7 @@ import { computed } from 'vue'
 import { AppState } from './AppState'
 import Navbar from "./components/Navbar.vue"
 import NewRecipe from "./components/NewRecipe.vue"
+import RecipeModal from "./components/RecipeModal.vue"
 
 export default {
   setup() {
@@ -22,7 +24,7 @@ export default {
       appState: computed(() => AppState)
     }
   },
-  components: { Navbar, Navbar, NewRecipe }
+  components: { Navbar, Navbar, NewRecipe, RecipeModal }
 }
 </script>
 <style lang="scss">

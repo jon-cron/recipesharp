@@ -8,7 +8,7 @@
     <form @submit.prevent="createRecipe">
   <div class="form-group my-1">
     <label for="title">Recipe title</label>
-    <input v-model="editable.title" style="text-transform:capitalize" required minlength="10" type="text" class="form-control" id="title" placeholder="Enter title here...">
+    <input v-model="editable.title" style="text-transform:uppercase" required minlength="10" type="text" class="form-control" id="title" placeholder="Enter title here...">
   </div>
   <div class="form-group my-1">
     <label for="instructions">Recipe Instructions</label>
