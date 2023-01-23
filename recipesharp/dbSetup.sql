@@ -23,6 +23,10 @@ CREATE TABLE recipes(
   Foreign Key (creatorId) REFERENCES accounts(id) ON DELETE CASCADE
 ) default charset utf8 COMMENT '';
 
+SELECT * FROM recipes;
+DELETE FROM recipes
+WHERE id > 4;
+
 INSERT INTO recipes
 (title,instructions,`imgUrl`,category,`creatorId`)
 VALUES

@@ -24,12 +24,12 @@ public class RecipesController : ControllerBase
   [HttpGet]
   // [Authorize]
   
-  public async Task<ActionResult<List<Recipe>>> GetAllRecipes()
+  public ActionResult<List<Recipe>> GetAllRecipes()
   {
     try 
     {
-      Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
-      List<Recipe> recipes = _recipesService.GetAllRecipes(userInfo?.Id);
+      // Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
+      List<Recipe> recipes = _recipesService.GetAllRecipes();
       return Ok(recipes);
     }
     catch (Exception e)

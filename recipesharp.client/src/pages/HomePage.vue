@@ -1,28 +1,44 @@
 <template>
-  <div class="home flex-grow-1 d-flex flex-column align-items-center justify-content-center">
+  <div>
+    <span class="row justify-content-center fixed-row align-content-center elevation-5 text-center">
+  <div class="col-3"><h6 class="selectable" >Home</h6></div>
+  <div class="col-4"><h6 class="selectable" >My Recipes</h6></div>
+  <div class="col-3"><h6 class="selectable" >Favorites</h6></div>
+</span>
 
+    <section class="row justify-content-evenly mt-5 mx-0">
+      <div class="col-4 col-md-3 d-flex justify-content-center p-1 my-3" v-for="r in recipes">
+        <RecipeCard :recipe = "r"/>
+      </div>
+    </section>
+    <i class="btn fixed-btn mdi text-white mdi-plus fs-2 selectable" title="New Recipe" type="button" data-bs-target="#new-recipe" data-bs-toggle="offcanvas"></i>
   </div>
 </template>
 
 <script>
-import { onMounted } from "vue";
+import { onMounted, computed } from "vue";
 import { logger } from "../utils/Logger.js";
 import Pop from "../utils/Pop.js";
 import { recipesService } from "../services/RecipesService.js"
+import { AppState } from "../AppState.js"
+import RecipeCard from "../components/RecipeCard.vue"
+
 export default {
   setup() {
     onMounted(()=>{
-      // getRecipes()
+      getRecipes()
     })
    async function getRecipes(){
       try {
-        await recipesService
+        await recipesService.getRecipes()
       } catch (error) {
         Pop.error(error)
         logger.log(error)
       }
     }
-    return {}
+    return {
+      recipes: computed(()=> AppState.recipes)
+    }
   }
 }
 </script>
@@ -32,19 +48,35 @@ export default {
   display: grid;
   height: 80vh;
   place-content: center;
-  text-align: center;
-  user-select: none;
 
   .home-card {
     width: 50vw;
-
-    >img {
-      height: 200px;
-      max-width: 200px;
-      width: 100%;
-      object-fit: contain;
-      object-position: center;
-    }
   }
 }
+.fixed-btn{
+    position: fixed;
+    bottom: 50px;
+    right: 50px; 
+    background-color: #527360;
+    border-radius: 45em;
+  }
+  .bg-btn{
+    background-color: green($color: #2f811e) !important;
+  }
+  div{
+    position: relative;
+
+    span{
+      position: absolute;
+      top: -60pt;
+      left: 580pt
+    }
+  }
+  .fixed-row{
+    background-color: white;
+    width: 40vh;
+    height: 40pt;
+    color: #51bb3c;
+  }
+
 </style>

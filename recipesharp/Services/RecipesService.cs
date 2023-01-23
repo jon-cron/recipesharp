@@ -8,11 +8,8 @@ public class RecipesService
   {
     _repo = repo;
   }
-  internal List<Recipe> GetAllRecipes(string userId)
+  internal List<Recipe> GetAllRecipes()
   {
-    if(userId == null){
-      throw new Exception("you are not logged in");
-    }
     List<Recipe> recipes = _repo.GetAllRecipes();
     return recipes;
   }

@@ -1,27 +1,25 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
-    <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
-      <div class="d-flex flex-column align-items-center">
-        <img alt="logo" src="../assets/img/cw-logo.png" height="45" />
+  <nav class="bg-img container-fluid p-2 fixed-nav elevation-7"> 
+    <section class="row justify-content-end">
+      <div class="col-3">
+        <div class="d-flex align-items-center justify-content-evenly" >
+          <div class="d-flex search-box">
+            <input class="bg-white search" type="text" placeholder="search...">
+            <button class="bg-white search-btn"><i class="mdi mdi-magnify bg-white" ></i></button>
+          </div>
+          <!-- LOGIN COMPONENT HERE -->
+          <Login class="elevation-5"/>
+        </div>
       </div>
-    </router-link>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarText"
-      aria-controls="navbarText"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav me-auto">
-      </ul>
-      <!-- LOGIN COMPONENT HERE -->
-      <Login />
-    </div>
+</section>
+<section class="row justify-content-center">
+  <div class="col-4 text-center text-white title-bg">
+    <h1>Recipe</h1>
+    <h6 class="text-center">A recipe has no soul. You as the cook must bring soul to the recipe.</h6>
+    <p class="text-end">-Thomas Keller</p>
+  </div>
+</section>
+
   </nav>
 </template>
 
@@ -36,6 +34,11 @@ export default {
 </script>
 
 <style scoped>
+
+
+.input-group{
+height: 3em;
+}
 a:hover {
   text-decoration: none;
 }
@@ -55,5 +58,54 @@ a:hover {
     height: 64px;
   }
 }
+.search{
+  border-top: .5pt solid white;
+  border-left: .5pt solid white;
+  border-bottom: .5pt solid white;
+  border-right: none;
+  border-right: none;
+  border-top-left-radius: 3pt;
+  border-bottom-left-radius: 3pt;
+  
+}
+.row{
+  margin: 0;
+}
+.nav-sz{
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+.search-btn{
+  border-top: .5pt solid white;
+  border-bottom: .5pt solid white;
+  border-right: .5pt solid white;
+  border-left: none;
+  border-top-right-radius: 3pt;
+  border-bottom-right-radius: 3pt;
+}
+.search-box{
+  height: 30pt;
+}
+.bg-img{
+  background-image: url('https://mir-s3-cdn-cf.behance.net/project_modules/fs/03bbd256340483.59aa4a0db2ffd.jpg');
+  height: 36vh;
+  margin-top: 15pt;
+  width: 97%;
+  background-position: center;
+  background-size: cover;
+}
+.title-bg{
+  background-color: rgba(31, 28, 28, 0.61);
+}
+h1{
+  font-family: Arial, Helvetica, sans-serif;
+}
+.elevation-7 {
+  box-shadow: 2pt 3pt 8pt rgba(53, 50, 50, 0.473);
+}
+/* .elevation-7 {
+  box-shadow: 0 2px 5px -1px rgba(0, 0, 0, 0.2), 0 5px 6px 0 rgba(0, 0, 0, 0.14), 0 1px 12px 0 rgba(0, 0, 0, 0.12);
+} */
 
 </style>

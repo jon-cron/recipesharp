@@ -1,17 +1,20 @@
 <template>
   <header>
+    <Navbar/>
   </header>
   <main>
     <router-view />
   </main>
    <footer >
   </footer>
+  <NewRecipe/>
 </template>
 
 <script>
 import { computed } from 'vue'
 import { AppState } from './AppState'
-import Navbar from './components/Navbar.vue'
+import Navbar from "./components/Navbar.vue"
+import NewRecipe from "./components/NewRecipe.vue"
 
 export default {
   setup() {
@@ -19,7 +22,7 @@ export default {
       appState: computed(() => AppState)
     }
   },
-  components: { Navbar }
+  components: { Navbar, Navbar, NewRecipe }
 }
 </script>
 <style lang="scss">
