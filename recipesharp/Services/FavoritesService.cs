@@ -39,4 +39,10 @@ public class FavoritesService
     Favorite favorite = _repo.GetOneFavorite(id);
     return favorite;
   }
+
+  internal List<Favorite> GetMyFav(string accountId)
+  {
+    List<Favorite> favorites = _repo.GetMyFav(accountId);
+    return favorites;
+  }
 }

@@ -22,6 +22,8 @@ public class FavoritesRepository
     return id;
   }
 
+
+
   internal List<Favoritor> GetFavoritesByRecipeId(int recipeId)
   {
     string sql = @"
@@ -33,6 +35,18 @@ public class FavoritesRepository
     WHERE fa.recipeId = @recipeId;
     ";
     return _db.Query<Favoritor>(sql, new {recipeId}).ToList();
+  }
+
+  internal List<Favorite> GetMyFav(string accountId)
+  {
+    string sql = @"
+    SELECT 
+    *
+    FROM favorites
+    WHERE accountId = @accountId
+    ";
+    List<Favorite> favorites = _db.Query<Favorite>(sql, new{accountId}).ToList();
+    return favorites;
   }
 
   internal Favorite GetOneFavorite(int id)

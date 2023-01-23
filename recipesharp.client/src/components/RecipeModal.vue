@@ -36,13 +36,16 @@
                 <h3>Ingredients</h3>
               </section>
               <section class="row">
-                <h6 v-if="ingredients.length > 0" v-for="i in ingredients">{{ i.name }}</h6>
+                <div class="col-12 d-flex"  v-if="ingredients.length > 0" v-for="i in ingredients">
+                  <h6>{{ i.quantity }} {{ i.name }}</h6><button class="btn"><i class="mdi mdi-delete" @click="removeIngredient(i)"></i></button>
+                </div>
               </section>
               <section class="row" v-if="account.id == recipe.creatorId">
                 <form class="p-0" @submit.prevent="createIngredient">
                   <div class="search-box">
                     <input v-model="editable.quantity" class="w-25 bg-white search" type="text" placeholder="quantity">
                     <input v-model="editable.name" class="w-50 bg-white search" type="text" placeholder="add ingredients">
+                    <!-- <input v-model="editable.recipeId" class="display-none" type="text" placeholder="add ingredients"> -->
                     <button class="bg-white search-btn"><i class="mdi mdi-plus bg-white" ></i></button>
                   </div>
                 </form>
@@ -86,8 +89,18 @@ export default {
     account: computed(()=> AppState.account),
     async createIngredient(){
       try {
-        const id = recipe.id
-        await ingredientsService.createIngredient(id, editable.value)
+        editable.value.recipeId = this.recipe.id
+        await ingredientsService.createIngredient(editable.value)
+        editable.value = {}
+      } catch (error) {
+        Pop.error(error)
+        logger.log(error)
+      }
+    },
+   async removeIngredient(i){
+      try {
+        const id = i.id
+        await ingredientsService.removeIngredient(id)
       } catch (error) {
         Pop.error(error)
         logger.log(error)
@@ -100,6 +113,10 @@ export default {
 
 
 <style lang="scss" scoped>
+
+.display-none{
+  display: hidden;
+}
 .shadow-bg{
   background-color: #BBBBBB;
   width: 100%;

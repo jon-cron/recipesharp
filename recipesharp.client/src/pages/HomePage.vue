@@ -7,7 +7,7 @@
 </span>
 
     <section class="row justify-content-evenly mt-5 mx-0">
-      <div class="col-4 col-md-3 d-flex justify-content-center p-1 my-3" v-for="r in recipes">
+      <div class="col-12 col-lg-3 col-md-6 d-flex justify-content-center p-1 my-3" v-for="r in recipes">
         <RecipeCard :recipe = "r"/>
       </div>
     </section>

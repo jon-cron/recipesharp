@@ -12,6 +12,7 @@ public class FavoritesController : ControllerBase
     _favoritesService = favoritesService;
     _auth0Provider = auth0Provider;
   }
+
   [HttpPost]
   [Authorize]
 
