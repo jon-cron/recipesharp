@@ -2,8 +2,8 @@
   <div>
     <span class="row justify-content-center fixed-row align-content-center elevation-5 text-center">
   <div class="col-3"><h6 class="selectable" @click="getRecipes" >Home</h6></div>
-  <div class="col-4"><h6 class="selectable" >My Recipes</h6></div>
-  <div class="col-3"><h6 class="selectable" >Favorites</h6></div>
+  <div class="col-4"><h6 class="selectable" @click="myRecipes">My Recipes</h6></div>
+  <div class="col-3"><h6 class="selectable" @click="filterFav">Favorites</h6></div>
 </span>
 
     <section class="row justify-content-evenly mt-5 mx-0">
@@ -22,11 +22,12 @@ import Pop from "../utils/Pop.js";
 import { recipesService } from "../services/RecipesService.js"
 import { AppState } from "../AppState.js"
 import RecipeCard from "../components/RecipeCard.vue"
+import { favoritesService } from "../services/FavoritesService.js";
 
 export default {
   setup() {
     onMounted(()=>{
-      getRecipes()
+      // getRecipes()
     })
     async function getRecipes(){
        try {
@@ -37,6 +38,14 @@ export default {
        }
      }
     return {
+      myRecipes(){
+        let filteredArr = AppState.recipes.filter(r => r.creatorId == this.account.id)
+        AppState.recipes = filteredArr
+      },
+      filterFav(){
+       let filteredArr = AppState.recipes.filter(r => r.isFavorite == true)
+        AppState.recipes = filteredArr
+      },
       async getRecipes(){
          try {
            await recipesService.getRecipes()
@@ -46,7 +55,9 @@ export default {
          }
        },
       recipes: computed(()=> AppState.recipes),
-      account: computed(()=> AppState.account)
+      account: computed(()=> AppState.account),
+      favorites: computed(()=> AppState.favorites),
+      recipe: computed(()=> AppState.recipe)
     }
   }
 }

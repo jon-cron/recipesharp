@@ -18,7 +18,8 @@
         </div>
       </div>
     </section>
-    <i class="mdi mdi-heart-outline fs-5 btn selectable" title="Favorite" @click="handleFavorite(recipe.id)"></i>
+    <i v-if="recipe.isFavorite == false" class="mdi mdi-heart-outline text-danger fs-5 btn selectable" title="Favorite" @click="handleFavorite(recipe)"></i>
+    <i v-else class="mdi mdi-heart text-danger fs-5 btn selectable" title="Favorite" @click="handleFavorite(recipe)"></i>
   </div>
 </template>
 
@@ -35,7 +36,8 @@ import { favoritesService } from "../services/FavoritesService.js/";
 export default {
   props: {recipe: {type: Recipe, required: true}},
   setup(props){
-  return {
+
+    return {
     favorites: computed(()=> AppState.favorites),
    async setToActive(){
     try {
@@ -46,11 +48,13 @@ export default {
       logger.log(error)
     }
     },
-    handleFavorite(recipeId){
+   async handleFavorite(recipe){
       try {
-        const isFav = this.favorites.find(f => f.recipeId == recipeId)
-        logger.log(isFav)
-        
+        if(recipe.isFavorite){
+          await favoritesService.removeFavorite(recipe.id)
+        } else{
+          await favoritesService.postFavorite(recipe.id)
+        }
       } catch (error) {
         Pop.error(error)
         logger.log(error)

@@ -8,7 +8,7 @@
    <footer >
   </footer>
   <NewRecipe/>
-  <RecipeModal/>
+  <RecipeModal />
 </template>
 
 <script>
@@ -24,7 +24,8 @@ export default {
       appState: computed(() => AppState)
     }
   },
-  components: { Navbar, Navbar, NewRecipe, RecipeModal }
+  components: { Navbar, Navbar, NewRecipe, RecipeModal },
+  recipe: computed(()=> AppState.recipe)
 }
 </script>
 <style lang="scss">

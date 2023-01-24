@@ -30,7 +30,7 @@ public class AccountController : ControllerBase
       return BadRequest(e.Message);
     }
   }
-  [HttpGet("/favorites")]
+  [HttpGet("favorites")]
   [Authorize]
 
 public async Task<ActionResult<List<Favorite>>> GetMyFav()

@@ -1,16 +1,20 @@
 <template>
-<div v-if="recipe" class="modal fade" id="recipe-modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div v-if="recipe" class="modal fade" id="recipe-modal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-xl" role="document">
-    <div class="modal-content bg-white modal-sz">
+    <div class="modal-content bg-white">
       <section class="row">
-        <div class="col-5"><img :src="recipe.imgUrl" class="img-fluid rounded-start" alt=""></div>
+        <div class="col-5"><img :src="recipe.imgUrl" class="img-fluid rounded-start" alt="">
+        </div>
         <div class="col-7">
-          <section class="row">
+          <section class="row justify-content-between">
             <div class="col-10 d-flex align-items-end justify-content-start p-2">
               <h2 class="">{{ recipe.title }}</h2>
               <div>
                 <h6 class="shadow-bg p-1 ms-2">{{ recipe.category }}</h6>
               </div>
+            </div>
+            <div class="col-1">
+              <i v-if="recipe.creatorId == account.id" @click="removeRecipe(recipe.id)" class="mdi mdi-delete text-danger btn selectable p-0 fs-5"></i>
             </div>
           </section>
           <!-- SECTION bottom right portion of recipe modal -->
@@ -67,6 +71,7 @@ import { computed, reactive, onMounted, ref } from 'vue';
 import Pop from "../utils/Pop.js";
 import { logger } from "../utils/Logger.js";
 import { ingredientsService } from "../services/IngredientsService.js";
+import { recipesService } from "../services/RecipesService.js";
 export default {
   setup(){
     const editable = ref({})
@@ -100,12 +105,24 @@ export default {
    async removeIngredient(i){
       try {
         const id = i.id
-        await ingredientsService.removeIngredient(id)
+        if(await Pop.confirm("Are you sure?")){
+          await ingredientsService.removeIngredient(id)
+        }
       } catch (error) {
         Pop.error(error)
         logger.log(error)
       }
+    },
+   async removeRecipe(recipeId){
+    try {
+      if( await Pop.confirm("Are you sure?")){
+        await recipesService.removeRecipe(recipeId)
+      }
+    } catch (error) {
+      Pop.error(error)
+      logger.log(error)
     }
+  }
   }
   }
 };
@@ -113,7 +130,6 @@ export default {
 
 
 <style lang="scss" scoped>
-
 .display-none{
   display: hidden;
 }
