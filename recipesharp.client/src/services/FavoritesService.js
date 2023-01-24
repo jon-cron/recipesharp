@@ -35,6 +35,7 @@ this.getFav()
 // logger.log("favorite deleted", AppState.favorites, res.data)
 }
 decideFav(){
+    AppState.recipes.forEach(r => r.isFavorite = false)
   for (let i = 0; i < AppState.myFavorites.length; i++) {
     let isFound = AppState.recipes.find(r => r.id == AppState.myFavorites[i].recipeId)
      if(isFound){
