@@ -41,7 +41,7 @@
               </section>
               <section class="row">
                 <div class="col-12 d-flex"  v-if="ingredients.length > 0" v-for="i in ingredients">
-                  <h6>{{ i.quantity }} {{ i.name }}</h6><button class="btn"><i class="mdi mdi-delete" @click="removeIngredient(i)"></i></button>
+                  <h6>{{ i.quantity }} {{ i.name }}</h6><button class="btn"><i v-if="recipe.creatorId == account.id" class="mdi mdi-delete" @click="removeIngredient(i)"></i></button>
                 </div>
               </section>
               <section class="row" v-if="account.id == recipe.creatorId">

@@ -18,8 +18,8 @@
         </div>
       </div>
     </section>
-    <i v-if="recipe.isFavorite == false" class="mdi mdi-heart-outline text-danger fs-5 btn selectable" title="Favorite" @click="handleFavorite(recipe)"></i>
-    <i v-else class="mdi mdi-heart text-danger fs-5 btn selectable" title="Favorite" @click="handleFavorite(recipe)"></i>
+    <i v-if="recipe.isFavorite == false && account.id" class="mdi mdi-heart-outline text-danger fs-5 btn selectable" title="Favorite" @click="handleFavorite(recipe)"></i>
+    <i v-else-if="recipe.isFavorite == true && account.id" class="mdi mdi-heart text-danger fs-5 btn selectable" title="Favorite" @click="handleFavorite(recipe)"></i>
   </div>
 </template>
 
@@ -32,13 +32,27 @@ import { logger } from "../utils/Logger.js";
 import Pop from "../utils/Pop.js";
 import { ingredientsService } from "../services/IngredientsService.js";
 import { favoritesService } from "../services/FavoritesService.js/";
+import { recipesService } from "../services/RecipesService.js";
 
 export default {
   props: {recipe: {type: Recipe, required: true}},
   setup(props){
-
+    onMounted(()=>{
+      // getRecipeFavorites()
+    })
+    // NOTE this works kinda.
+    // async function getRecipeFavorites(){
+    //   try {
+    //     let recipe = props.recipe.id
+    //     await recipesService.getRecipeFavorites(recipe)
+    //   } catch (error) {
+    //     Pop.error(error)
+    //   }
+    // }
     return {
+      account: computed(()=> AppState.account),
     favorites: computed(()=> AppState.favorites),
+
    async setToActive(){
     try {
       AppState.recipe = props.recipe
@@ -50,10 +64,13 @@ export default {
     },
    async handleFavorite(recipe){
       try {
+        // const id = {recipe.id}
         if(recipe.isFavorite){
           await favoritesService.removeFavorite(recipe.id)
+          // logger.log(recipe.id)
         } else{
-          await favoritesService.postFavorite(recipe.id)
+          let favData = {recipeId: recipe.id}
+          await favoritesService.postFavorite(favData)
         }
       } catch (error) {
         Pop.error(error)

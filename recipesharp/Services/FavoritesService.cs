@@ -27,14 +27,16 @@ public class FavoritesService
 
   internal string RemoveFavorite(int id, string userId)
   {
-    Favorite favorite = GetOneFavorite(id, userId);
-    if(favorite ==null){
-      return "still favorited";
+    Favorite favorite = _repo.GetOneFavorite(id);
+    if(favorite == null){
+      throw new Exception("still favorited");
     }
-    _repo.RemoveFavorite(id);
+   bool results = _repo.RemoveFavorite(id);
+   if(results == false) throw new Exception("not member at id");
+
       return "unfavorited";
   }
-  internal Favorite GetOneFavorite(int id, string userId)
+  internal Favorite GetOneFavorite(int id)
   {
     Favorite favorite = _repo.GetOneFavorite(id);
     return favorite;

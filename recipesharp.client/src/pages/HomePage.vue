@@ -1,6 +1,6 @@
 <template>
   <div>
-    <span class="row justify-content-center fixed-row align-content-center elevation-5 text-center">
+    <span v-if="account.id" class="row justify-content-center fixed-row align-content-center elevation-5 text-center">
   <div class="col-3"><h6 class="selectable" @click="getRecipes" >Home</h6></div>
   <div class="col-4"><h6 class="selectable" @click="myRecipes">My Recipes</h6></div>
   <div class="col-3"><h6 class="selectable" @click="filterFav">Favorites</h6></div>
@@ -27,7 +27,8 @@ import { favoritesService } from "../services/FavoritesService.js";
 export default {
   setup() {
     onMounted(()=>{
-      // getRecipes()
+      // FIXME try a listener and replace this getRecipes()
+      getRecipes()
     })
     async function getRecipes(){
        try {
@@ -37,6 +38,16 @@ export default {
          logger.log(error)
        }
      }
+    //  NOTE this is crazy
+    //  async function getRecipeFavorites(){
+    //   try {
+    //     for (let i = 0; i < AppState.recipe.length; i++) {
+    //       await recipesService.getRecipeFavorites(AppState.recipes[i].id)
+    //     }
+    //   } catch (error) {
+    //     Pop.error(error)
+    //   }
+    //  }
     return {
       myRecipes(){
         let filteredArr = AppState.recipes.filter(r => r.creatorId == this.account.id)

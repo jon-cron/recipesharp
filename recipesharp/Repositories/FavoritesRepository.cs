@@ -60,13 +60,14 @@ public class FavoritesRepository
     Favorite favorite = _db.Query<Favorite>(sql, new {id}).FirstOrDefault();
     return favorite;
   }
-  internal void RemoveFavorite(int id)
+  internal bool RemoveFavorite(int id)
   {
     string sql = @"
     DELETE FROM favorites
     WHERE id = @id
     ";
-    _db.Execute(sql, new {id});
+   int rows = _db.Execute(sql, new {id});
+   return rows > 0;
 
   }
 }

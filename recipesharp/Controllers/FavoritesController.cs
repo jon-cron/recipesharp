@@ -31,6 +31,19 @@ public class FavoritesController : ControllerBase
       return BadRequest(e.Message);
     }
   }
+  [HttpGet("{id}")]
+  public ActionResult<Favorite> GetOne(int id)
+  {
+    try 
+    {
+      Favorite favorite = _favoritesService.GetOneFavorite(id);
+      return favorite;
+    }
+    catch (Exception e)
+    {
+      return BadRequest(e.Message);
+    }
+  }
   [HttpDelete("{id}")]
   [Authorize]
 
@@ -38,8 +51,8 @@ public class FavoritesController : ControllerBase
   {
     try 
     {
-      Favoritor userInfo = await _auth0Provider.GetUserInfoAsync<Favoritor>(HttpContext);
-      string message = _favoritesService.RemoveFavorite(id, userInfo?.Id);
+      Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
+      string message = _favoritesService.RemoveFavorite(id, userInfo.Id);
       return Ok(message);
 
     }

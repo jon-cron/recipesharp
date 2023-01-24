@@ -104,7 +104,7 @@ public class RecipesController : ControllerBase
     }
   }
   [HttpGet("{id}/favorites")]
-  [Authorize]
+  // [Authorize]
   public async Task<ActionResult<List<Favoritor>>> GetFavoritesByRecipeId(int id)
   {
     try 

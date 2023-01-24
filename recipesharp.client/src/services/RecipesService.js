@@ -11,10 +11,7 @@ class RecipesService{
   const res = await api.get("api/recipes");
   AppState.recipes = res.data.map(r => new Recipe(r))
   logger.log(AppState.recipes)
-  // await AuthService.getFav()
-  // setTimeout(()=>{
     favoritesService.getFav()
-  // }, 700)
 
 }
 async createRecipe(recipeData){
@@ -26,6 +23,11 @@ async removeRecipe(id){
   const res = await api.delete(`api/recipes/${id}`)
   logger.log(res.data)
   AppState.recipes = AppState.recipes.filter(r => r.id != id)
+}
+async getRecipeFavorites(id){
+  const res = await api.get(`api/recipes/${id}/favorites`)
+  AppState.fav = res.data
+  logger.log("Recipe favorites",AppState.fav)
 }
 }
 
