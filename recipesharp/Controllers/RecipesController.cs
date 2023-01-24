@@ -28,8 +28,22 @@ public class RecipesController : ControllerBase
   {
     try 
     {
-      // Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
       List<Recipe> recipes = _recipesService.GetAllRecipes();
+      return Ok(recipes);
+    }
+    catch (Exception e)
+    {
+      return BadRequest(e.Message);
+    }
+  }
+  [HttpGet("results/{search}")]
+  // [Authorize]
+  
+  public ActionResult<List<Recipe>> GetSearch(string search)
+  {
+    try 
+    {
+      List<Recipe> recipes = _recipesService.GetSearch(search);
       return Ok(recipes);
     }
     catch (Exception e)
@@ -88,7 +102,7 @@ public class RecipesController : ControllerBase
     }
   }
   [HttpGet("{id}/ingredients")]
-  [Authorize]
+  // [Authorize]
 
   public async Task<ActionResult<List<Ingredient>>> GetIngredientsByRecipeId(int id)
   {

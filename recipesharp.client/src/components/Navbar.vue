@@ -1,16 +1,16 @@
 <template>
   <nav class="bg-img container-fluid p-2 fixed-nav elevation-7"> 
     <section class="row justify-content-end">
-      <div class="col-3">
+      <div class="col-3 d-flex justify-content-between">
         <div class="d-flex align-items-center justify-content-evenly" >
-          <div class="d-flex search-box">
-            <input class="bg-white search" type="text" placeholder="search...">
-            <button class="bg-white search-btn"><i class="mdi mdi-magnify bg-white" ></i></button>
+            <form action="" class="d-flex search-box" @submit.prevent="search">
+              <input v-model="editable.search" class="bg-white search" type="text" placeholder="search...">
+              <button class="bg-white search-btn"><i class="mdi mdi-magnify bg-white" ></i></button>
+            </form>
           </div>
           <!-- LOGIN COMPONENT HERE -->
           <Login class="elevation-5"/>
         </div>
-      </div>
 </section>
 <section class="row justify-content-center">
   <div class="col-4 text-center text-white title-bg">
@@ -24,10 +24,26 @@
 </template>
 
 <script>
+import { ref } from "vue";
+import { recipesService } from "../services/RecipesService.js";
+import { logger } from "../utils/Logger.js";
+import Pop from "../utils/Pop.js";
 import Login from './Login.vue'
 export default {
   setup() {
-    return {}
+    const editable = ref({})
+    return {
+      editable,
+      async search(){
+        try {
+          // logger.log("search", editable.value)
+          await recipesService.search(editable.value)
+          editable.value = {}
+        } catch (error) {
+          Pop.error
+        }
+      }
+    }
   },
   components: { Login }
 }

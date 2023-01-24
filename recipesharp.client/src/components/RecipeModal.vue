@@ -1,7 +1,7 @@
 <template>
-  <div v-if="recipe" class="modal fade" id="recipe-modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div  class="modal fade" id="recipe-modal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-xl" role="document">
-    <div class="modal-content bg-white">
+    <div v-if="recipe" class="modal-content bg-white">
       <section class="row">
         <div class="col-5"><img :src="recipe.imgUrl" class="img-fluid rounded-start" alt="">
         </div>
@@ -27,10 +27,10 @@
                 <h6>{{ recipe.instructions }}</h6>
               </section>
               <section class="row justify-content-center" v-if="account.id == recipe.creatorId">
-                <form>
+                <form @submit.prevent="editInstructions">
                   <div class="d-flex search-box">
                     <input v-model="editable.instructions" class="bg-white search" type="text" placeholder="instruction">
-                    <button class="bg-white search-btn"><i class="mdi mdi-plus bg-white" ></i></button>
+                    <button class="bg-white search-btn"><i class="mdi mdi-plus bg-white"></i></button>
                   </div>
                 </form>
               </section>
@@ -75,18 +75,6 @@ import { recipesService } from "../services/RecipesService.js";
 export default {
   setup(){
     const editable = ref({})
-    // onMounted(()=>{
-    //   getIngredients()
-    // })
-    // async function getIngredients(){
-    //   try {
-    //     const id = recipe.id
-    //     await ingredientsService.getIngredients(id)
-    //   } catch (error) {
-    //     Pop.error(error)
-    //     logger.log(error)
-    //   }
-    //  }
   return {
     editable,
     recipe: computed(()=> AppState.recipe),
@@ -102,6 +90,15 @@ export default {
         logger.log(error)
       }
     },
+async editInstructions(){
+  try {
+    editable.value.recipeId = this.recipe.id
+    await recipesService.editRecipe(editable.value)
+    editable.value = {}
+  } catch (error) {
+    Pop.error(error)
+  }
+},
    async removeIngredient(i){
       try {
         const id = i.id

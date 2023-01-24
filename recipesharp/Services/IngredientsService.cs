@@ -24,10 +24,10 @@ public class IngredientsService
 
     // Recipe recipe = _recipesService.GetOneRecipeById(recipeId, userId);
     // recipeId = recipe.Id;
-    if(userId == null )
-    {
-      throw new Exception("please log in");
-    }
+    // if(userId == null )
+    // {
+    //   throw new Exception("please log in");
+    // }
     List<Ingredient> ingredients = _repo.GetIngredientsByRecipeId(recipeId);
     return ingredients;
   }

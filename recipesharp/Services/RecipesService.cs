@@ -63,4 +63,11 @@ public class RecipesService
   }
   throw new Exception("recipe was not edited.");
   }
+
+  internal List<Recipe> GetSearch(string search)
+  {
+    string NewSearch = "%" + search + "%";
+    List<Recipe> recipes = _repo.GetSearch(NewSearch);
+    return recipes;
+  }
 }

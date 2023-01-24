@@ -1,9 +1,11 @@
 <template>
+  <Navbar/>
+
   <div>
-    <span v-if="account.id" class="row justify-content-center fixed-row align-content-center elevation-5 text-center">
+    <span class="row justify-content-center fixed-row align-content-center elevation-5 text-center">
   <div class="col-3"><h6 class="selectable" @click="getRecipes" >Home</h6></div>
-  <div class="col-4"><h6 class="selectable" @click="myRecipes">My Recipes</h6></div>
-  <div class="col-3"><h6 class="selectable" @click="filterFav">Favorites</h6></div>
+  <div  v-if="account.id" class="col-4"><h6 class="selectable" @click="myRecipes">My Recipes</h6></div>
+  <div  v-if="account.id" class="col-3"><h6 class="selectable" @click="filterFav">Favorites</h6></div>
 </span>
 
     <section class="row justify-content-evenly mt-5 mx-0">
@@ -23,54 +25,58 @@ import { recipesService } from "../services/RecipesService.js"
 import { AppState } from "../AppState.js"
 import RecipeCard from "../components/RecipeCard.vue"
 import { favoritesService } from "../services/FavoritesService.js";
+import Navbar from "../components/Navbar.vue";
 
 export default {
-  setup() {
-    onMounted(()=>{
-      // FIXME try a listener and replace this getRecipes()
-      getRecipes()
-    })
-    async function getRecipes(){
-       try {
-         await recipesService.getRecipes()
-       } catch (error) {
-         Pop.error(error)
-         logger.log(error)
-       }
-     }
-    //  NOTE this is crazy
-    //  async function getRecipeFavorites(){
-    //   try {
-    //     for (let i = 0; i < AppState.recipe.length; i++) {
-    //       await recipesService.getRecipeFavorites(AppState.recipes[i].id)
-    //     }
-    //   } catch (error) {
-    //     Pop.error(error)
-    //   }
-    //  }
-    return {
-      myRecipes(){
-        let filteredArr = AppState.recipes.filter(r => r.creatorId == this.account.id)
-        AppState.recipes = filteredArr
-      },
-      filterFav(){
-       let filteredArr = AppState.recipes.filter(r => r.isFavorite == true)
-        AppState.recipes = filteredArr
-      },
-      async getRecipes(){
-         try {
-           await recipesService.getRecipes()
-         } catch (error) {
-           Pop.error(error)
-           logger.log(error)
-         }
-       },
-      recipes: computed(()=> AppState.recipes),
-      account: computed(()=> AppState.account),
-      favorites: computed(()=> AppState.favorites),
-      recipe: computed(()=> AppState.recipe)
-    }
-  }
+    setup() {
+        onMounted(() => {
+            // FIXME try a listener and replace this getRecipes()
+            getRecipes();
+        });
+        async function getRecipes() {
+            try {
+                await recipesService.getRecipes();
+            }
+            catch (error) {
+                Pop.error(error);
+                logger.log(error);
+            }
+        }
+        //  NOTE this is crazy
+        //  async function getRecipeFavorites(){
+        //   try {
+        //     for (let i = 0; i < AppState.recipe.length; i++) {
+        //       await recipesService.getRecipeFavorites(AppState.recipes[i].id)
+        //     }
+        //   } catch (error) {
+        //     Pop.error(error)
+        //   }
+        //  }
+        return {
+           async myRecipes() {
+                let filteredArr = AppState.recipes.filter(r => r.creatorId == this.account.id);
+                AppState.recipes = filteredArr;
+            },
+           async filterFav() {
+                let filteredArr = AppState.recipes.filter(r => r.isFavorite == true);
+                AppState.recipes = filteredArr;
+            },
+            recipes: computed(() => AppState.recipes),
+            account: computed(() => AppState.account),
+            favorites: computed(() => AppState.favorites),
+            recipe: computed(() => AppState.recipe),
+            async getRecipes() {
+                try {
+                    await recipesService.getRecipes();
+                }
+                catch (error) {
+                    Pop.error(error);
+                    logger.log(error);
+                }
+            },
+        };
+    },
+    components: { Navbar }
 }
 </script>
 

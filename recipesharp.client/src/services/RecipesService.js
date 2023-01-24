@@ -29,8 +29,28 @@ async getRecipeFavorites(id){
   AppState.fav = res.data
   logger.log("Recipe favorites",AppState.fav)
 }
+async editRecipe(recipeData){
+  // logger.log(recipeData)
+  const res = await api.put(`api/recipes/${recipeData.recipeId}`, recipeData)
+  AppState.recipe = new Recipe(res.data)
+  logger.log(res.data)
+}
+async search(searchData){
+  // logger.log(searchData)
+  const res = await api.get(`api/recipes/results/` + searchData.search)
+  // logger.log(res.data)
+  AppState.recipes = res.data.map(r => new Recipe(r))
+}
 }
 
 export const recipesService = new RecipesService();
 
-// Slice bananas into chips. Combine flour, salt, buttermilk, eggs, and baking powder in a large bowl. Heat skillet on medium. Pour a 1/4 cup of mixture into skillet.
+// async editInstructions(){
+//   try {
+//     editable.value.recipeId = this.recipe.id
+//     await recipesService.editRecipe(editable.value)
+//     editable.value = {}
+//   } catch (error) {
+//     Pop.error(error)
+//   }
+// },

@@ -71,6 +71,18 @@ return recipeData;
     }, new {id}).FirstOrDefault();
   }
 
+  internal List<Recipe> GetSearch(string newSearch)
+  {
+    string sql = @"
+    SELECT 
+    *
+    FROM recipes
+    WHERE title LIKE @newSearch OR instructions LIKE @newSearch;
+    ";
+  List<Recipe> recipes = _db.Query<Recipe>(sql, new {newSearch}).ToList();
+  return recipes;
+  }
+
   internal void RemoveRecipe(int id)
   {
     string sql = @"
